@@ -1,8 +1,9 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Add this import
-import 'package:your_app_name/bloc/transaction_bloc.dart'; // Replace with your actual path
-import 'package:your_app_name/bloc/transaction_event.dart'; // Replace with your actual path
+import 'package:flutter_bloc/flutter_bloc.dart'; // Add this import
+import 'package:Eswatini/bussiness_logic/transaction/transaction_bloc.dart';
+import 'package:Eswatini/bussiness_logic/transaction/transaction_event.dart';// Replace with your actual path
 
 /// Display CalendarDatePicker with action buttons
 class CalendarDatePicker2WithActionButtons extends StatefulWidget {
