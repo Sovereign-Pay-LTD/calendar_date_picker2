@@ -1,9 +1,8 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Add this import
-import 'package:flutter_bloc/flutter_bloc.dart'; // Add this import
 import 'package:Eswatini/bussiness_logic/transaction/transaction_bloc.dart';
-import 'package:Eswatini/bussiness_logic/transaction/transaction_event.dart';// Replace with your actual path
+import 'package:Eswatini/bussiness_logic/transaction/transaction_event.dart';
 
 /// Display CalendarDatePicker with action buttons
 class CalendarDatePicker2WithActionButtons extends StatefulWidget {
@@ -191,22 +190,35 @@ class _CalendarDatePicker2WithActionButtonsState
               // Safe handling of date filter application
               if ((widget.config.openedFromDialog ?? false) &&
                   (widget.config.closeDialogOnOkTapped ?? true)) {
-                Navigator.pop(context, _values);
 
-                // Only add the event if both dates are not null
-                if (_values.length >= 2 && _values[0] != null && _values[1] != null) {
-                  try {
-                    context.read<TransactionBloc>().add(
-                        DateFilterTransaction(
-                            endDate: _values[1]!,
-                            startDate: _values[0]!
-                        )
-                    );
-                  } catch (e) {
-                    print('Error applying date filter: $e');
-                    // Optionally show a snackbar or other feedback
-                  }
+                Navigator.pop(context, _values);
+                if (_values.length >= 2 &&
+                    _values[0] != null &&
+                    _values[1] != null) {
+    context.read<TransactionBloc>().add(
+    DateFilterTransaction(
+    endDate: _values[1]!,
+    startDate: _values[0]!
+    )
+    );
+    context.read<TransactionBloc>().add(InitializeTransaction());
+
                 }
+                // Only add the event if both dates are not null
+
+                // if (_values.length >= 2 && _values[0] != null && _values[1] != null) {
+                //   try {
+                //     context.read<TransactionBloc>().add(
+                //         DateFilterTransaction(
+                //             endDate: _values[1]!,
+                //             startDate: _values[0]!
+                //         )
+                //     );
+                //   } catch (e) {
+                //     print('Error applying date filter: $e');
+                //     // Optionally show a snackbar or other feedback
+                //   }
+                // }
               }
             });
           },
