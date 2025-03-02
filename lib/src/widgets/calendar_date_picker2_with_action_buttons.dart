@@ -1,5 +1,8 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; // Add this import
+import 'package:your_app_name/bloc/transaction_bloc.dart'; // Replace with your actual path
+import 'package:your_app_name/bloc/transaction_event.dart'; // Replace with your actual path
 
 /// Display CalendarDatePicker with action buttons
 class CalendarDatePicker2WithActionButtons extends StatefulWidget {
@@ -14,8 +17,8 @@ class CalendarDatePicker2WithActionButtons extends StatefulWidget {
   }) : super(key: key) {
     if (config.calendarViewMode == CalendarDatePicker2Mode.scroll) {
       assert(
-        config.scrollViewConstraints?.maxHeight != null,
-        'scrollViewConstraint with maxHeight must be provided when used withCalendarDatePicker2WithActionButtons under scroll mode',
+      config.scrollViewConstraints?.maxHeight != null,
+      'scrollViewConstraint with maxHeight must be provided when used with CalendarDatePicker2WithActionButtons under scroll mode',
       );
     }
   }
@@ -81,8 +84,12 @@ class _CalendarDatePicker2WithActionButtonsState
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
+    MaterialLocalizations.of(context);
+    double itemWidth = ((width / 3) - ((width * 0.06) / 3)).clamp(320, 400);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -95,77 +102,118 @@ class _CalendarDatePicker2WithActionButtonsState
             onDisplayedMonthChanged: widget.onDisplayedMonthChanged,
           ),
         ),
-        SizedBox(height: widget.config.gapBetweenCalendarAndButtons ?? 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            _buildCancelButton(Theme.of(context).colorScheme, localizations),
-            if ((widget.config.gapBetweenCalendarAndButtons ?? 0) > 0)
-              SizedBox(width: widget.config.gapBetweenCalendarAndButtons),
-            _buildOkButton(Theme.of(context).colorScheme, localizations),
-          ],
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildCancelButton(Theme.of(context).colorScheme, localizations),
+              const SizedBox(width: 10),
+              _buildOkButton(Theme.of(context).colorScheme, localizations),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildCancelButton(
-      ColorScheme colorScheme, MaterialLocalizations localizations) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(5),
-      onTap: () => setState(() {
-        _editCache = _values;
-        widget.onCancelTapped?.call();
-        if ((widget.config.openedFromDialog ?? false) &&
-            (widget.config.closeDialogOnCancelTapped ?? true)) {
-          Navigator.pop(context);
-        }
-      }),
-      child: Container(
-        padding: widget.config.buttonPadding ??
-            const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: widget.config.cancelButton ??
-            Text(
-              localizations.cancelButtonLabel.toUpperCase(),
-              style: widget.config.cancelButtonTextStyle ??
-                  TextStyle(
-                    color: widget.config.selectedDayHighlightColor ??
-                        colorScheme.primary,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                  ),
+  Widget _buildCancelButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Expanded(
+      flex: 1,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(5),
+        onTap: () {
+          setState(() {
+            _editCache = _values;
+            widget.onCancelTapped?.call();
+            if ((widget.config.openedFromDialog ?? false) &&
+                (widget.config.closeDialogOnCancelTapped ?? true)) {
+              Navigator.pop(context);
+            }
+          });
+        },
+        child: Container(
+          width: double.infinity,
+          height: height * 0.085,
+          padding: widget.config.buttonPadding ??
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF57921),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(width * 0.04),
+              bottomRight: Radius.circular(width * 0.04),
+              bottomLeft: Radius.circular(width * 0.04),
             ),
+          ),
+          child: Center(
+            child: widget.config.cancelButton ??
+                Icon(
+                  Icons.close,
+                  color: Colors.white,
+                  size: width * 0.08,
+                ),
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildOkButton(
-      ColorScheme colorScheme, MaterialLocalizations localizations) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(5),
-      onTap: () => setState(() {
-        _values = _editCache;
-        widget.onValueChanged?.call(_values);
-        widget.onOkTapped?.call();
-        if ((widget.config.openedFromDialog ?? false) &&
-            (widget.config.closeDialogOnOkTapped ?? true)) {
-          Navigator.pop(context, _values);
-        }
-      }),
-      child: Container(
-        padding: widget.config.buttonPadding ??
-            const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: widget.config.okButton ??
-            Text(
-              localizations.okButtonLabel.toUpperCase(),
-              style: widget.config.okButtonTextStyle ??
-                  TextStyle(
-                    color: widget.config.selectedDayHighlightColor ??
-                        colorScheme.primary,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                  ),
+  Widget _buildOkButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Expanded(
+      flex: 4,
+      child: SizedBox(
+        height: height * 0.085,
+        child: FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(width * 0.04),
+                bottomRight: Radius.circular(width * 0.04),
+                bottomLeft: Radius.circular(width * 0.04),
+              ),
             ),
+          ),
+          onPressed: () {
+            setState(() {
+              _values = _editCache;
+              widget.onValueChanged?.call(_values);
+              widget.onOkTapped?.call();
+
+              // Safe handling of date filter application
+              if ((widget.config.openedFromDialog ?? false) &&
+                  (widget.config.closeDialogOnOkTapped ?? true)) {
+                Navigator.pop(context, _values);
+
+                // Only add the event if both dates are not null
+                if (_values.length >= 2 && _values[0] != null && _values[1] != null) {
+                  try {
+                    context.read<TransactionBloc>().add(
+                        DateFilterTransaction(
+                            endDate: _values[1]!,
+                            startDate: _values[0]!
+                        )
+                    );
+                  } catch (e) {
+                    print('Error applying date filter: $e');
+                    // Optionally show a snackbar or other feedback
+                  }
+                }
+              }
+            });
+          },
+          child: Text(
+            'Apply',
+            style: TextStyle(fontFamily: 'Roboto', fontSize: width * 0.05),
+          ),
+        ),
       ),
     );
   }
