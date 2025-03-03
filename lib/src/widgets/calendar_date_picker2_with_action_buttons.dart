@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Add this import
 import 'package:Eswatini/bussiness_logic/transaction/transaction_bloc.dart';
 import 'package:Eswatini/bussiness_logic/transaction/transaction_event.dart';
-
+import 'package:Eswatini/utils/constants.dart';
 /// Display CalendarDatePicker with action buttons
 class CalendarDatePicker2WithActionButtons extends StatefulWidget {
   CalendarDatePicker2WithActionButtons({
@@ -102,17 +102,19 @@ class _CalendarDatePicker2WithActionButtonsState
             onDisplayedMonthChanged: widget.onDisplayedMonthChanged,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        Container(
+            height: height * 0.18,
+            padding: EdgeInsets.only(left: 8, right: 8, ),
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildCancelButton(Theme.of(context).colorScheme, localizations),
               const SizedBox(width: 10),
               _buildOkButton(Theme.of(context).colorScheme, localizations),
             ],
-          ),
-        ),
+          ),)
+
       ],
     );
   }
@@ -137,7 +139,7 @@ class _CalendarDatePicker2WithActionButtonsState
         },
         child: Container(
           width: double.infinity,
-          height: height * 0.085,
+          height: height * 0.065,
           padding: widget.config.buttonPadding ??
               const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           decoration: BoxDecoration(
@@ -168,11 +170,11 @@ class _CalendarDatePicker2WithActionButtonsState
     return Expanded(
       flex: 4,
       child: SizedBox(
-        height: height * 0.085,
+        height: height * 0.065,
         child: FilledButton(
           style: FilledButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
+            backgroundColor: PRIMARY_COLOR,
+            foregroundColor: const Color(0xFFF57921),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(width * 0.04),
