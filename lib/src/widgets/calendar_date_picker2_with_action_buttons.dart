@@ -1,10 +1,10 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'; // Add this import
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Eswatini/bussiness_logic/transaction/transaction_bloc.dart';
 import 'package:Eswatini/bussiness_logic/transaction/transaction_event.dart';
 import 'package:Eswatini/utils/constants.dart';
-/// Display CalendarDatePicker with action buttons
+
 class CalendarDatePicker2WithActionButtons extends StatefulWidget {
   CalendarDatePicker2WithActionButtons({
     required this.value,
@@ -23,22 +23,11 @@ class CalendarDatePicker2WithActionButtons extends StatefulWidget {
     }
   }
 
-  /// The selected [DateTime]s that the picker should display.
   final List<DateTime?> value;
-
-  /// Called when the user taps 'OK' button
   final ValueChanged<List<DateTime?>>? onValueChanged;
-
-  /// Called when the user navigates to a new month/year in the picker under non-scroll mode
   final ValueChanged<DateTime>? onDisplayedMonthChanged;
-
-  /// The calendar configurations including action buttons
   final CalendarDatePicker2WithActionButtonsConfig config;
-
-  /// The callback when cancel button is tapped
   final Function? onCancelTapped;
-
-  /// The callback when ok button is tapped
   final Function? onOkTapped;
 
   @override
@@ -86,9 +75,7 @@ class _CalendarDatePicker2WithActionButtonsState
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final MaterialLocalizations localizations =
-    MaterialLocalizations.of(context);
-    double itemWidth = ((width / 3) - ((width * 0.06) / 3)).clamp(320, 400);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -103,25 +90,36 @@ class _CalendarDatePicker2WithActionButtonsState
           ),
         ),
         Container(
-            height: height * 0.18,
-            padding: EdgeInsets.only(left: 8, right: 8, ),
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+         height: height * 0.17,
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Colors.grey,
+                width: 1.0,
+              ),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.
+            start,
             children: [
               _buildCancelButton(Theme.of(context).colorScheme, localizations),
-              const SizedBox(width: 10),
+              Container(
+                height: 40,
+                padding: EdgeInsets.only(top: 3),
+                child: VerticalDivider(thickness: 1.0),
+              ),
               _buildOkButton(Theme.of(context).colorScheme, localizations),
             ],
-          ),)
-
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildCancelButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return Expanded(
       flex: 1,
@@ -137,26 +135,20 @@ class _CalendarDatePicker2WithActionButtonsState
             }
           });
         },
-        child: Container(
+        child:
+    Container(
+    height: 40,
           width: double.infinity,
-          height: height * 0.065,
-          padding: widget.config.buttonPadding ??
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF57921),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(width * 0.04),
-              bottomRight: Radius.circular(width * 0.04),
-              bottomLeft: Radius.circular(width * 0.04),
-            ),
-          ),
           child: Center(
-            child: widget.config.cancelButton ??
-                Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: width * 0.08,
+            child: Text(
+                'Cancel',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
+          )
           ),
         ),
       ),
@@ -165,68 +157,46 @@ class _CalendarDatePicker2WithActionButtonsState
 
   Widget _buildOkButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return Expanded(
-      flex: 4,
-      child: SizedBox(
-        height: height * 0.065,
-        child: FilledButton(
-          style: FilledButton.styleFrom(
-            backgroundColor: PRIMARY_COLOR,
-            foregroundColor: const Color(0xFFF57921),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(width * 0.04),
-                bottomRight: Radius.circular(width * 0.04),
-                bottomLeft: Radius.circular(width * 0.04),
-              ),
-            ),
-          ),
-          onPressed: () {
-            setState(() {
-              _values = _editCache;
-              widget.onValueChanged?.call(_values);
-              widget.onOkTapped?.call();
+      flex: 1,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(5),
+        onTap: () {
+          setState(() {
+            _values = _editCache;
+            widget.onValueChanged?.call(_values);
+            widget.onOkTapped?.call();
 
-              // Safe handling of date filter application
-              if ((widget.config.openedFromDialog ?? false) &&
-                  (widget.config.closeDialogOnOkTapped ?? true)) {
+            // Safe handling of date filter application
+            if ((widget.config.openedFromDialog ?? false) &&
+                (widget.config.closeDialogOnOkTapped ?? true)) {
 
-                Navigator.pop(context, _values);
-                if (_values.length >= 2 &&
-                    _values[0] != null &&
-                    _values[1] != null) {
-    context.read<TransactionBloc>().add(
-    DateFilterTransaction(
-    endDate: _values[1]!,
-    startDate: _values[0]!
-    )
-    );
-    context.read<TransactionBloc>().add(InitializeTransaction());
+              Navigator.pop(context, _values);
+              if (_values.length >= 2 &&
+                  _values[0] != null &&
+                  _values[1] != null) {
 
-                }
-                // Only add the event if both dates are not null
-
-                // if (_values.length >= 2 && _values[0] != null && _values[1] != null) {
-                //   try {
-                //     context.read<TransactionBloc>().add(
-                //         DateFilterTransaction(
-                //             endDate: _values[1]!,
-                //             startDate: _values[0]!
-                //         )
-                //     );
-                //   } catch (e) {
-                //     print('Error applying date filter: $e');
-                //     // Optionally show a snackbar or other feedback
-                //   }
-                // }
               }
-            });
-          },
-          child: Text(
-            'Apply',
-            style: TextStyle(fontFamily: 'Roboto', fontSize: width * 0.05),
+              // Only add the event if both dates are not null
+
+
+            }
+          });
+        },
+        child: Container(
+          height: 40,
+          width: double.infinity,
+          child: Center(
+              child: Text(
+                'Apply',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
           ),
         ),
       ),
