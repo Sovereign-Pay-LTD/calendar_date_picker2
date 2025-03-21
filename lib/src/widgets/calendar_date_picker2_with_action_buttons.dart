@@ -87,8 +87,10 @@ class _CalendarDatePicker2WithActionButtonsState
           ),
         ),
         Container(
-         height: height * 0.17,
+          height: height * 0.058,
+          width: double.infinity,
           decoration: BoxDecoration(
+
             border: Border(
               top: BorderSide(
                 color: Colors.grey,
@@ -103,7 +105,7 @@ class _CalendarDatePicker2WithActionButtonsState
             children: [
               _buildCancelButton(Theme.of(context).colorScheme, localizations),
               Container(
-                height: 40,
+                height:height * 0.05,
                 padding: EdgeInsets.only(top: 3),
                 child: VerticalDivider(thickness: 1.0),
               ),
@@ -117,7 +119,7 @@ class _CalendarDatePicker2WithActionButtonsState
 
   Widget _buildCancelButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
     final width = MediaQuery.of(context).size.width;
-
+    final height = MediaQuery.of(context).size.height;
     return Expanded(
       flex: 1,
       child: InkWell(
@@ -133,19 +135,19 @@ class _CalendarDatePicker2WithActionButtonsState
           });
         },
         child:
-    Container(
-    height: 40,
+        Container(
+          height: height * 0.058,
           width: double.infinity,
           child: Center(
-            child: Text(
+              child: Text(
                 'Cancel',
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: 15,
+                  fontSize: 14,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
-          )
+              )
           ),
         ),
       ),
@@ -154,7 +156,7 @@ class _CalendarDatePicker2WithActionButtonsState
 
   Widget _buildOkButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
     final width = MediaQuery.of(context).size.width;
-
+    final height = MediaQuery.of(context).size.height;
     return Expanded(
       flex: 1,
       child: InkWell(
@@ -182,14 +184,14 @@ class _CalendarDatePicker2WithActionButtonsState
           });
         },
         child: Container(
-          height: 40,
+          height: height * 0.058,
           width: double.infinity,
           child: Center(
               child: Text(
                 'Apply',
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: 15,
+                  fontSize: 14,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
