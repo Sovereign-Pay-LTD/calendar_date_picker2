@@ -100,15 +100,16 @@ class _DayPickerState extends State<_DayPicker> {
         'firstDayOfWeek must between 0 and 6');
     for (int i = firstDayOfWeek; true; i = (i + 1) % 7) {
       final String weekday = weekdays[i];
-      result.add(ExcludeSemantics(
-        child: widget.config.weekdayLabelBuilder?.call(weekday: i) ??
-            Center(
-              child: Text(
-                weekday,
-                style: widget.config.weekdayLabelTextStyle ?? headerStyle,
-              ),
-            ),
-      ));
+      // result.add(ExcludeSemantics(
+      //   child:SizedBox()
+      //   //widget.config.weekdayLabelBuilder?.call(weekday: i) ??
+      //       // Center(
+      //       //   child: Text(
+      //       //     weekday,
+      //       //     style: widget.config.weekdayLabelTextStyle ?? headerStyle,
+      //       //   ),
+      //       // ),
+      // ));
       if (i == (firstDayOfWeek - 1) % 7) break;
     }
     return result;
@@ -412,9 +413,8 @@ class _DayPickerState extends State<_DayPicker> {
               decoration: decoration,
               child: Center(
                 child: Text(
-                   localizations.formatDecimal(day),
+                  localizations.formatDecimal(day),
                   style: dayTextStyle,
-                  
                 ),
               ),
             ),
