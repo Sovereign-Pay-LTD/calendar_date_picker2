@@ -413,9 +413,8 @@ class _DayPickerState extends State<_DayPicker> {
               child: Center(
                 child: Text(
                    localizations.formatDecimal(day),
-                  // style: dayTextStyle,
-                   style: TextStyle(color: Colors.black,
-                fontWeight: FontWeight.bold)
+                  style: dayTextStyle,
+                  
                 ),
               ),
             ),
