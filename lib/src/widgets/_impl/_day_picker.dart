@@ -105,9 +105,7 @@ class _DayPickerState extends State<_DayPicker> {
             Center(
               child: Text(
                 weekday,
-                 style: TextStyle(color: Colors.black,
-                fontWeight: FontWeight.bold)
-                //style: widget.config.weekdayLabelTextStyle ?? headerStyle,
+                style: widget.config.weekdayLabelTextStyle ?? headerStyle,
               ),
             ),
       ));
@@ -414,8 +412,10 @@ class _DayPickerState extends State<_DayPicker> {
               decoration: decoration,
               child: Center(
                 child: Text(
-                  localizations.formatDecimal(day),
-                  style: dayTextStyle,
+                   localizations.formatDecimal(day),
+                  // style: dayTextStyle,
+                   style: TextStyle(color: Colors.black,
+                fontWeight: FontWeight.bold)
                 ),
               ),
             ),
