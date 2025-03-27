@@ -139,7 +139,8 @@ class _CalendarDatePicker2WithActionButtonsState
           height: height * 0.058,
           width: double.infinity,
           child: Center(
-              child: Text(
+              child:  Padding(padding: EdgeInsets.only(bottom: height * 0.003), child:
+    Text(
                 'Cancel',
                 style: TextStyle(
                   fontFamily: 'Roboto',
@@ -147,7 +148,7 @@ class _CalendarDatePicker2WithActionButtonsState
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
-              )
+              ),)
           ),
         ),
       ),
@@ -187,7 +188,7 @@ class _CalendarDatePicker2WithActionButtonsState
           height: height * 0.058,
           width: double.infinity,
           child: Center(
-              child: Text(
+              child: Padding(padding: EdgeInsets.only(bottom:height * 0.003), child:  Text(
                 'Apply',
                 style: TextStyle(
                   fontFamily: 'Roboto',
@@ -195,7 +196,7 @@ class _CalendarDatePicker2WithActionButtonsState
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
-              )
+              ))
           ),
         ),
       ),
