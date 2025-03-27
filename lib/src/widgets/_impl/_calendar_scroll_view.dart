@@ -105,7 +105,7 @@ class _CalendarScrollViewState extends State<_CalendarScrollView> {
             widget.config.firstDayOfWeek ?? _localizations.firstDayOfWeekIndex,
           )
         : _maxDayPickerRowCount;
-    var totalRowsCount = dayRowsCount + 1;
+     var totalRowsCount = dayRowsCount + 1;
     var rowHeight = widget.config.dayMaxWidth != null
         ? (widget.config.dayMaxWidth! + 2)
         : _dayPickerRowHeight;
@@ -400,14 +400,14 @@ class _CalendarScrollViewHeader extends StatelessWidget {
         child: Center(
           child: config.weekdayLabelBuilder
                   ?.call(weekday: i, isScrollViewTopHeader: true) ??
-             Text(
-                weekday,
-                style: TextStyle(color: Colors.black,
-                fontWeight: FontWeight.bold)
-                // config.scrollViewTopHeaderTextStyle ??
-                //     config.weekdayLabelTextStyle ??
-                //     headerStyle,
-              ),
+             Padding(padding: EdgeInsets.only(bottom: 2),child: Text(
+                 weekday,
+                 style: TextStyle(color: Colors.black,
+                     fontWeight: FontWeight.bold)
+               // config.scrollViewTopHeaderTextStyle ??
+               //     config.weekdayLabelTextStyle ??
+               //     headerStyle,
+             ),)
         ),
       ));
       if (i == (firstDayOfWeek - 1) % 7) break;
