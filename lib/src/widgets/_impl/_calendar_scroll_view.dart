@@ -15,6 +15,7 @@ class _CalendarScrollView extends StatefulWidget {
   /// The calendar configurations
   final CalendarDatePicker2Config config;
 
+
   /// The initial month to display.
   final DateTime initialMonth;
 
@@ -167,7 +168,7 @@ class _CalendarScrollViewState extends State<_CalendarScrollView> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _CalendarScrollViewHeader(widget.config),
+              _CalendarScrollViewHeader(widget.config ),
               if (_showWeekBottomDivider &&
                   widget.config.hideScrollViewTopHeaderDivider != true)
                 const Divider(height: 0),
@@ -388,6 +389,7 @@ class _CalendarScrollViewHeader extends StatelessWidget {
   /// ```
   List<Widget> _dayHeaders(
       TextStyle? headerStyle, MaterialLocalizations localizations) {
+
     final List<Widget> result = <Widget>[];
     final weekdays = config.weekdayLabels ?? localizations.narrowWeekdays;
     final firstDayOfWeek =
@@ -422,11 +424,15 @@ class _CalendarScrollViewHeader extends StatelessWidget {
     final TextStyle? headerStyle = themeData.textTheme.bodySmall?.apply(
       color: colorScheme.onSurface.withOpacity(0.60),
     );
+    final height = MediaQuery.of(context).size.height;
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     final List<Widget> headers = _dayHeaders(headerStyle, localizations);
 
     return Container(
+      height: height * 0.058,
+      color: config.headerColor ?? Colors.transparent,
+
       constraints: BoxConstraints(
           maxHeight: config.dayMaxWidth != null
               ? config.dayMaxWidth! + 2
