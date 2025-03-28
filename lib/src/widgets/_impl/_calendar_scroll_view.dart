@@ -404,11 +404,12 @@ class _CalendarScrollViewHeader extends StatelessWidget {
                   ?.call(weekday: i, isScrollViewTopHeader: true) ??
              Padding(padding: EdgeInsets.only(bottom: 2),child: Text(
                  weekday,
-                 style: TextStyle(color: Colors.black,
-                     fontWeight: FontWeight.bold)
-               // config.scrollViewTopHeaderTextStyle ??
-               //     config.weekdayLabelTextStyle ??
-               //     headerStyle,
+                 style:
+                 // TextStyle(
+                 //     fontWeight: FontWeight.bold)
+               config.scrollViewTopHeaderTextStyle ??
+                   config.weekdayLabelTextStyle ??
+                   headerStyle,
              ),)
         ),
       ));
