@@ -70,8 +70,7 @@ class _CalendarDatePicker2WithActionButtonsState
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
     final MaterialLocalizations localizations = MaterialLocalizations.of(context);
 
     return Column(
@@ -87,7 +86,7 @@ class _CalendarDatePicker2WithActionButtonsState
           ),
         ),
         Container(
-          height: height * 0.058,
+          height: size.height * 0.065,
           width: double.infinity,
           decoration: BoxDecoration(
 
@@ -105,7 +104,7 @@ class _CalendarDatePicker2WithActionButtonsState
             children: [
               _buildCancelButton(Theme.of(context).colorScheme, localizations),
               Container(
-                height:height * 0.05,
+                height:size.height * 0.06,
                 padding: EdgeInsets.only(top: 3),
                 child: VerticalDivider(thickness: 1.0),
               ),
@@ -118,8 +117,8 @@ class _CalendarDatePicker2WithActionButtonsState
   }
 
   Widget _buildCancelButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
+
     return Expanded(
       flex: 1,
       child: InkWell(
@@ -136,10 +135,10 @@ class _CalendarDatePicker2WithActionButtonsState
         },
         child:
         Container(
-          height: height * 0.058,
+          height: size.height * 0.065,
           width: double.infinity,
           child: Center(
-              child:  Padding(padding: EdgeInsets.only(bottom: height * 0.003), child:
+              child:  Padding(padding: EdgeInsets.only(bottom: size.height * 0.003), child:
     Text(
                 'Cancel',
                 style: TextStyle(
@@ -156,8 +155,8 @@ class _CalendarDatePicker2WithActionButtonsState
   }
 
   Widget _buildOkButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
+
     return Expanded(
       flex: 1,
       child: InkWell(
@@ -185,10 +184,10 @@ class _CalendarDatePicker2WithActionButtonsState
           });
         },
         child: Container(
-          height: height * 0.058,
+          height: size.height *0.065,
           width: double.infinity,
           child: Center(
-              child: Padding(padding: EdgeInsets.only(bottom:height * 0.003), child:  Text(
+              child: Padding(padding: EdgeInsets.only(bottom:size.height * 0.003), child:  Text(
                 'Apply',
                 style: TextStyle(
                   fontFamily: 'Roboto',
