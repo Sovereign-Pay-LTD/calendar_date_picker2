@@ -21,7 +21,7 @@ Future<List<DateTime?>?> showCalendarDatePicker2Dialog({
 }) {
   final dialogHeight = config.dayMaxWidth != null
       ? dialogSize.height
-      : max(dialogSize.height, 410);
+      : max(dialogSize.height, 360);
   var dialog = Dialog(
     insetPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
     backgroundColor: dialogBackgroundColor ?? Theme.of(context).canvasColor,
