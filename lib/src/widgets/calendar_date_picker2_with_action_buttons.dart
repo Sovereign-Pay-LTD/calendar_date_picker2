@@ -86,7 +86,7 @@ class _CalendarDatePicker2WithActionButtonsState
           ),
         ),
         Container(
-          height: size.height * 0.065,
+         // height: size.height * 0.065,
           width: double.infinity,
           decoration: BoxDecoration(
 
@@ -97,18 +97,70 @@ class _CalendarDatePicker2WithActionButtonsState
               ),
             ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.
-            start,
+          alignment: Alignment.center,
+          child:
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
             children: [
-              _buildCancelButton(Theme.of(context).colorScheme, localizations),
-              Container(
-                height:size.height * 0.06,
-                padding: EdgeInsets.only(top: 3),
-                child: VerticalDivider(thickness: 1.0),
+              Expanded(
+                child: TextButton(
+                  onPressed: (){
+                    setState(() {
+                      _editCache = _values;
+                      widget.onCancelTapped?.call();
+                      if ((widget.config.openedFromDialog ?? false) &&
+                          (widget.config.closeDialogOnCancelTapped ?? true)) {
+                        Navigator.pop(context);
+                      }
+                    });
+                  },
+                  child: Text(
+                    'Cancel'.toUpperCase(),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-              _buildOkButton(Theme.of(context).colorScheme, localizations),
+              Container(color: Colors.grey, width: 1, height: 28),
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+
+                    setState(() {
+                      _values = _editCache;
+                      widget.onValueChanged?.call(_values);
+                      widget.onOkTapped?.call();
+
+                      // Safe handling of date filter application
+                      if ((widget.config.openedFromDialog ?? false) &&
+                          (widget.config.closeDialogOnOkTapped ?? true)) {
+
+                        Navigator.pop(context, _values);
+                        if (_values.length >= 2 &&
+                            _values[0] != null &&
+                            _values[1] != null) {
+
+                        }
+                        // Only add the event if both dates are not null
+
+
+                      }
+                    });
+                  },
+                  child: Text(
+                    'Apply'.toUpperCase(),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -116,89 +168,5 @@ class _CalendarDatePicker2WithActionButtonsState
     );
   }
 
-  Widget _buildCancelButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
-    final size = MediaQuery.of(context).size;
 
-    return Expanded(
-      flex: 1,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(5),
-        onTap: () {
-          setState(() {
-            _editCache = _values;
-            widget.onCancelTapped?.call();
-            if ((widget.config.openedFromDialog ?? false) &&
-                (widget.config.closeDialogOnCancelTapped ?? true)) {
-              Navigator.pop(context);
-            }
-          });
-        },
-        child:
-        Container(
-          height: size.height * 0.065,
-          width: double.infinity,
-          child: Center(
-              child:  Padding(padding: EdgeInsets.only(bottom: size.height * 0.003), child:
-    Text(
-                'Cancel',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),)
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOkButton(ColorScheme colorScheme, MaterialLocalizations localizations) {
-    final size = MediaQuery.of(context).size;
-
-    return Expanded(
-      flex: 1,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(5),
-        onTap: () {
-          setState(() {
-            _values = _editCache;
-            widget.onValueChanged?.call(_values);
-            widget.onOkTapped?.call();
-
-            // Safe handling of date filter application
-            if ((widget.config.openedFromDialog ?? false) &&
-                (widget.config.closeDialogOnOkTapped ?? true)) {
-
-              Navigator.pop(context, _values);
-              if (_values.length >= 2 &&
-                  _values[0] != null &&
-                  _values[1] != null) {
-
-              }
-              // Only add the event if both dates are not null
-
-
-            }
-          });
-        },
-        child: Container(
-          height: size.height *0.065,
-          width: double.infinity,
-          child: Center(
-              child: Padding(padding: EdgeInsets.only(bottom:size.height * 0.003), child:  Text(
-                'Apply',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ))
-          ),
-        ),
-      ),
-    );
-  }
 }
